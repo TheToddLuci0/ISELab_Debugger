@@ -1,0 +1,21 @@
+The project would create a traffic visualization framework that provides students new to networking and cyber security a
+contextual way to comprehend what is occurring during laboratory experiments.  It could also be used during
+demonstrations to help them solidify concepts we learn from reading packets, looking at protocols, and looking at
+malformed packets.  The product will be produced using the Internet Scale Event and Attack Environment (ISEAGE)testbed
+as it is implemented in ISELab for classes at Iowa State University.
+
+The framework developed shall have a number of distinct goals.
+
+First, the project will provide a simple graphical means for students to see the traffic entering and existing their
+networks. Ideally, there will be some basic level of categorization.
+
+Second, the project will show potential attack traffic. This may include a threshold of specific types of traffic that
+provide alerts.
+
+Third, there will be functionality for the verification of the status of services hosted by students as part of lab
+activities.
+
+Fourth, the project will provide some means of easy extension, for ease of the introduction of further analysis and
+service testing tools.
+
+Finally, the project will be easily deployed by those without extensive knowledge of systems administration.

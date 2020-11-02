@@ -1,0 +1,41 @@
+{% extends 'base/index.html' %}
+{% load static %}
+{% block content %}
+    <div>
+        <form action="/network-test/" method="post">
+            {% csrf_token %}
+            {% include "base/snippets/form_snippet.html" %}
+            <small class="text-muted">Submitting will run a test, which may take a fwe seconds</small>
+        </form>
+    </div>
+    {% if results %}
+        {# This is where we display the results of the net test #}
+        <div>
+            {% if results.gateway %}
+                <p><b>Gateway Ping:</b> {% if results.gateway == "OK" %}
+                    <img src="{% static "bootstrap-icons/check-circle-fill.svg" %}">{% else %}
+                    {{ results.gateway }}<br>Make sure your static IP is set correctly, or your network has DHCP. See
+                    <a href="https://docs.iseage.org/cdc/current/server_setup/index.html#server-isn-t-working">ISEAGE
+                        docs</a> for more information.
+                {% endif %}</p>
+            {% endif %}
+            {% if results.proxy %}
+                <p><b>Proxy Ping:</b> {% if results.proxy == "OK" %}
+                    <img src="{% static "bootstrap-icons/check-circle-fill.svg" %}">{% else %}
+                    {{ results.proxy }}<br>Make sure your gateway is set. By default, this is at <code>.254</code> of
+                    your range in ISEAGE environments. See
+                    <a href="https://docs.iseage.org/cdc/current/server_setup/index.html#server-isn-t-working">ISEAGE
+                        docs</a> for more information.
+                {% endif %}</p>
+            {% endif %}
+            {% if results.site %}
+                <p><b>HTTP Request:</b> {% if results.site == "OK" %}
+                    <img src="{% static "bootstrap-icons/check-circle-fill.svg" %}">{% else %}
+                    {{ results.site }}<br>Make sure your proxy is set. By default, it is <code>199.100.16.100</code> in
+                    ISEAGE environments. See
+                    <a href="https://docs.iseage.org/cdc/current/server_setup/index.html#server-isn-t-working">ISEAGE
+                        docs</a> for more information.{% endif %}</p>
+            {% endif %}
+        </div>
+    {% endif %}
+{% endblock %}

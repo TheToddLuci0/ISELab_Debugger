@@ -10,6 +10,7 @@ python3 -m virtualenv venv
 source venv/bin/activate
 pip install -r requirements.txt
 python manage.py migrate
+python manage.py collectstatic
 ```
 
 The above does the following:
@@ -18,6 +19,7 @@ The above does the following:
 1. Activate the virtual environment. This tells your shell to use the new environment.
 1. Install the project requirements.
 1. Initialize the local SQLITE3 database.
+1. Move all static files, including ones from Django dependencies, into one place
 
 To run the server, run 
 ```shell script

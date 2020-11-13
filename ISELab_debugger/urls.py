@@ -21,4 +21,6 @@ urlpatterns = [
     path('', base_views.IndexView.as_view(), name="site_index"),
     path('admin/', admin.site.urls),
     path('network-test/', base_views.NetworkTestView.as_view(), name="network_test"),
+    path('service-test/', base_views.ServiceCheckView.as_view(), name="service_test_root"),
+    path('service-test/ssh/', base_views.SSH_ServiceCheckView.as_view(), name="ssh_service_test")
 ]

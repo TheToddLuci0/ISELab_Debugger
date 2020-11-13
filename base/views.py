@@ -1,6 +1,3 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from django.views.generic.base import TemplateView
 from django.views.generic.base import View, TemplateResponseMixin
 from . import actions, forms
 
@@ -119,4 +116,34 @@ class NetworkTestView(BaseTemplateView):
                     results['site'] = site_err if not site_success else "OK"
             context['results'] = results
 
+        return self.render_to_response(context)
+
+
+class ServiceCheckView(BaseTemplateView):
+    template_name = 'base/service_check.html'
+
+
+class SSH_ServiceCheckView(BaseTemplateView):
+
+    template_name = 'base/services/ssh.html'
+
+    def get(self, request, context, *args, **kwargs):
+        context['form'] = forms.SSHServiceForm(initial={'port': 22, 'cmd': 'date'})
+        return self.render_to_response(context)
+
+    def post(self, request, context, *args, **kwargs):
+        form = forms.SSHServiceForm(request.POST)
+        context['form'] = form
+        if form.is_valid():
+            success, message, exception = actions.test_ssh(
+                form.cleaned_data['address'],
+                username=form.cleaned_data['username'],
+                password=form.cleaned_data['password'],
+                cmd=form.cleaned_data['cmd'],
+                port=form.cleaned_data['port']
+            )
+            if success:
+                context['okay_text'] = message
+            else:
+                context['err_text'] = message
         return self.render_to_response(context)

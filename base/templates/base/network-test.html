@@ -2,10 +2,10 @@
 {% load static %}
 {% block content %}
     <div>
-        <form action="/network-test/" method="post">
+        <form action="{% url 'network_test' %}" method="post">
             {% csrf_token %}
             {% include "base/snippets/form_snippet.html" %}
-            <small class="text-muted">Submitting will run a test, which may take a fwe seconds</small>
+            <small class="text-muted">Submitting will run a test, which may take a few seconds</small>
         </form>
     </div>
     {% if results %}

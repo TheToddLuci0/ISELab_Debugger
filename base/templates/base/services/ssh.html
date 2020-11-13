@@ -1,0 +1,26 @@
+{% extends 'base/base.html' %}
+{% block content %}
+
+    <div>
+        <form action="{% url 'ssh_service_test' %}" method="post">
+            {% csrf_token %}
+            {% include "base/snippets/form_snippet.html" %}
+            <small class="text-muted">Submitting will run a test, which may take a few seconds</small>
+        </form>
+    </div>
+
+    {% if okay_text %}
+    <h3 style="color: forestgreen;">Success!</h3>
+        <p>Command results:</p>
+        <code>
+            {{okay_text}}
+        </code>
+    {% elif err_text %}
+        <h3 style="color: orangered;">Failure!</h3>
+        <p>Error:</p>
+        <code>
+        {{ err_text }}
+        </code>
+    {% endif %}
+
+{% endblock %}

@@ -2,7 +2,7 @@ import subprocess
 import re
 import sys
 import requests
-
+from paramiko import SSHClient, AutoAddPolicy, AuthenticationException, SSHException
 
 PING_REGEX = re.compile('\A[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\Z')
 
@@ -46,3 +46,24 @@ def test_http_site(address: str, ignore_ssl = False):
         return True, None
     else:
         return False, r.status_code
+
+
+def test_ssh(address: str, username: str = 'root', password: str = '', port: int = 22, cmd: str = 'date && pwd'):
+    client = SSHClient()
+    client.set_missing_host_key_policy(AutoAddPolicy)
+    ex = None
+    try:
+        client.connect(address, port=port, username=username, password=password, auth_timeout=5)
+        std_in, std_out, std_err = client.exec_command(cmd, timeout=15)
+        res, msg = True, std_out.read().decode('ascii')
+    except AuthenticationException as e:
+        res, msg, ex = False, "Invalid Credentials", e
+    except SSHException as e:
+        res, msg, ex = False, "Failed to establish SSH connection", e
+    except TimeoutError as e:
+        res, msg, ex = False, "Connection timed out.", e
+    except Exception as e:
+        res, msg, ex = False, "An unknown error occurred", e
+    finally:
+        client.close()
+    return res, msg, ex

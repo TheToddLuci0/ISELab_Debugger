@@ -1,0 +1,97 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+
+    <div>
+        <form action="{% url 'http_service_test' %}" method="post">
+            {% csrf_token %}
+            {% include "base/snippets/form_snippet.html" %}
+            <small class="text-muted">Submitting will run a test, which may take a few seconds</small>
+        </form>
+    </div>
+
+    {% if okay %}
+        <div class="row" style="padding-top: 10px">
+            <div class="col-md-8">
+                <h3 style="color: forestgreen;">Success!</h3>
+            </div>
+            <div class="col-md-4">
+                {# This is the most important part of the application. #}
+                <img src="https://http.cat/200" style="object-fit: contain;height: 100%; width: 100%;"
+                     alt="A happy cat">
+            </div>
+        </div>
+    {% elif error %}
+        {#        This is for errors from the app itself, hopefully a user never actually sees this! #}
+        <h3 style="color: orangered;">An Exception Occurred!</h3>
+        <p>Error:</p>
+        <code>
+            {{ error }}
+        </code>
+    {% else %}
+        <h3 style="color: orangered;">That seems wrong!</h3>
+        {# If we're here, we have a status code in the status_code variable, and should try to dispense advice based on that. #}
+
+        <div class="row" style="padding-top: 10px">
+            <div class="col-md-8">
+                <h2>Status Code: {{ status_code }}</h2>
+                {% if status_code == 404 %}
+                    <p>This means that we couldn't find the page you wanted, but the webserver is alive. Most likely,
+                        you have a typo in your URL.</p>
+                {% elif status_code == 400 %}
+                    <p>A generic HTTP error has occurred. Check your webserver logs.</p>
+                {% elif status_code == 401 %}
+                    <p>You are not authorized. This could mean that the credentials provided were incorrect, or that
+                        your server's authentication is broken.</p>
+                {% elif status_code == 403 %}
+                    <p>You are forbidden. This usually means that you are trying to get the server to do something it
+                        doesn't
+                        want to, or your user role is not allowed to.</p>
+                {% elif staus_code == 418 %}
+                    <p>I am a teapot. Either you're looking at one of <a href="https://github.com/TheToddLuci0">TheToddLuci0's</a>
+                        CDC apps,
+                        or something is pretty wrong here. Or maybe you're actually talking to a tea pot. See
+                        <a href="https://tools.ietf.org/html/rfc2324"> RFC 2324</a> for full protocol specifications.
+                    </p>
+                {% elif 400 <= status_code and status_code <= 499 %} {# Annoys me that I can't be pythonic here #}
+                    <p>The 400 series of errors is used to indicate an issue with the client request. If you're seeing
+                        this,
+                        it means that whatever code you have is a less-common one. From here, your best bet is to
+                        <a href="https://duckduckgo.com/?q=http+{{ status_code }}">search for it.</a>
+                        (That's a helpful link with a pre built search!)
+                    </p>
+                {% elif status_code == 500 %}
+                    <p>This means that your server is broke. Sorry, no helpful insight here.</p>
+                {% elif staus_code == 502 %}
+                    <p>The webserver (Nginx, Apache) is fine, but whatever it's pointing at is very much not. Usually,
+                        this is caused by an application server (think Django, Node.JS, or Ruby on Rails) suffering an
+                        internal error from which it could not recover.</p>
+                {% elif 500 <= status_code and status_code <= 599 %} {# Annoys me that I can't be pythonic here #}
+                    <p>The 500 series of errors is used to indicate a server error. If you're seeing this,
+                        it means that whatever code you have is a less-common one. From here, your best bet is to
+                        <a href="https://duckduckgo.com/?q=http+{{ status_code }}">search for it.</a>
+                        (That's a helpful link with a pre built search!</p>
+                {% elif status_code > 599 %}
+                    <p>You have encountered a non-standard error. Good luck, have fun.</p>
+                {% elif 300 <= status_code and status_code <= 399 %} {# Annoys me that I can't be pythonic here #}
+                    <p>The 300 series of HTTP codes indicate that something has moved. Most HTTP clients automatically
+                        follow these, and these don't usually indicate an error.</p>
+                {% elif 100 <= status_code and status_code <= 199 %} {# Annoys me that I can't be pythonic here #}
+                    <p>The 100 series of HTTP codes indicate that things are in progress</p>
+                {% else %}
+                    {# Edge case for really weird things. #}
+                    <p>Congrats, you've hit the edge case. Whatever you have here, it's really weird. Have you tried
+                        <a href="https://duckduckgo.com/?q=http+{{ status_code }}">DDG-ing it?</a>
+                    </p>
+                {% endif %}
+
+            </div>
+            <div class="col-md-4">
+                {# This is the most important part of the application. #}
+                <img src="https://http.cat/{{ status_code }}" style="object-fit: contain;height: 100%; width: 100%;"
+                     alt="A cat">
+            </div>
+        </div>
+    {% endif %}
+
+{% endblock %}

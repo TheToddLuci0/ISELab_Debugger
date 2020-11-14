@@ -34,12 +34,12 @@ def ping_server(address: str = "199.100.16.100"):
         return False, "Not a valid IP address"
 
 
-def test_http_site(address: str, ignore_ssl = False):
+def test_http_site(address: str, ignore_ssl=False, username=None, password=None):
     try:
         if ignore_ssl:
-            r = requests.get(address, verify=False)
+            r = requests.get(address, verify=False, auth=(username, password))
         else:
-            r = requests.get(address)
+            r = requests.get(address, auth=(username, password))
     except Exception as e:
         return False, e
     if r.status_code == 200:

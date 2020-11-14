@@ -147,3 +147,27 @@ class SSH_ServiceCheckView(BaseTemplateView):
             else:
                 context['err_text'] = message
         return self.render_to_response(context)
+
+
+class HTTP_ServiceCheckView(BaseTemplateView):
+    template_name = 'base/services/http.html'
+
+    def get(self, request, context, *args, **kwargs):
+        context['form'] = forms.HTTPServiceForm()
+        return self.render_to_response(context)
+
+    def post(self, request, context, *args, **kwargs):
+        form = forms.HTTPServiceForm(request.POST)
+        context['form'] = form
+        if form.is_valid():
+            okay, status = actions.test_http_site(address=form.cleaned_data['address'],
+                                                  ignore_ssl=form.cleaned_data['bypass_ssl'],
+                                                  username=form.cleaned_data['username'],
+                                                  password=form.cleaned_data['password'])
+            if okay:
+                context['okay'] = True
+            elif isinstance(status, Exception):
+                context['error'] = status
+            else:
+                context['status_code'] = status
+        return self.render_to_response(context)

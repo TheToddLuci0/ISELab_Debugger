@@ -22,5 +22,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('network-test/', base_views.NetworkTestView.as_view(), name="network_test"),
     path('service-test/', base_views.ServiceCheckView.as_view(), name="service_test_root"),
-    path('service-test/ssh/', base_views.SSH_ServiceCheckView.as_view(), name="ssh_service_test")
+    path('service-test/ssh/', base_views.SSH_ServiceCheckView.as_view(), name="ssh_service_test"),
+    path('service-test/http/', base_views.HTTP_ServiceCheckView.as_view(), name="http_service_test"),
 ]

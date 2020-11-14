@@ -35,3 +35,21 @@ class HTTPServiceForm(forms.Form):
                                )
     bypass_ssl = forms.BooleanField(label="Don't validate SSL", required=False,
                                     help_text="Can be helpful in environments with no or self signed certs")
+
+
+class DNSServiceForm(forms.Form):
+    # We're only using the most common ones here to avoid melting brains
+    RECORD_CHOICES = (
+        ("A", "A"),
+        ("A6", "A6"),
+        ("AAAA", "AAAA"),
+        ("ANY", "ANY"),
+        ("CNAME", "CNAME"),
+        ("MX", "MX"),
+        ("NS", "NS")
+    )
+    # RECORD_CHOICES = ["A", "A6", "AAAA", "ANY", "CNAME", "MX", "NS"]
+    server = forms.GenericIPAddressField(unpack_ipv4=True, label="DNS Server Address",
+                                         widget=forms.TextInput(attrs={'class': 'form-control'}))
+    hostname = forms.CharField(label="Lookup Target", widget=forms.TextInput(attrs={'class': 'form-control'}))
+    lookup_type = forms.ChoiceField(choices=RECORD_CHOICES)

@@ -1,0 +1,27 @@
+{% extends 'base/base.html' %}
+{% load tt_web %}
+
+{% block content %}
+    <div>
+        <form action="{% url 'dns_service_test' %}" method="post">
+            {% csrf_token %}
+            {% include "base/snippets/form_snippet.html" %}
+            <small class="text-muted">Submitting will run a test, which may take a few seconds</small>
+        </form>
+    </div>
+
+    <div>
+        {% if response_arr %}
+            <h3 style="color: forestgreen;">Success!</h3>
+            {% autoescape off %}
+            {% for res in response_arr %}
+                <code>{{ res }}</code><br/>
+            {% endfor %}
+            {% endautoescape %}
+        {% elif err %}
+            <h3 style="color: orangered;">Failure!</h3>
+            <p>{{ err }}</p>
+        {% endif %}
+    </div>
+
+{% endblock %}

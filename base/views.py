@@ -119,12 +119,16 @@ class NetworkTestView(BaseTemplateView):
         return self.render_to_response(context)
 
 
+################
+# Service Checks
+################
+
+
 class ServiceCheckView(BaseTemplateView):
     template_name = 'base/service_check.html'
 
 
 class SSH_ServiceCheckView(BaseTemplateView):
-
     template_name = 'base/services/ssh.html'
 
     def get(self, request, context, *args, **kwargs):
@@ -170,4 +174,30 @@ class HTTP_ServiceCheckView(BaseTemplateView):
                 context['error'] = status
             else:
                 context['status_code'] = status
+        return self.render_to_response(context)
+
+
+class DNS_ServiceCheckView(BaseTemplateView):
+    template_name = 'base/services/dns.html'
+
+    def get(self, request, context, *args, **kwargs):
+        context['form'] = forms.DNSServiceForm()
+        return self.render_to_response(context)
+
+    def post(self, request, context, *args, **kwargs):
+        form = forms.DNSServiceForm(request.POST)
+        context['form'] = form
+        if form.is_valid():
+            okay, message = actions.test_dns(dns_server=form.cleaned_data['server'],
+                                             lookup_target=form.cleaned_data['hostname'],
+                                             lookup_type=form.cleaned_data['lookup_type'])
+            if okay:
+                arr = []
+                for m in message:
+                    s_arr = m.to_text().split('\n')
+                    for i in s_arr:
+                        arr.append(i)
+                context['response_arr'] = arr
+            else:
+                context['err'] = message
         return self.render_to_response(context)

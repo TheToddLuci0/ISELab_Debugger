@@ -24,4 +24,5 @@ urlpatterns = [
     path('service-test/', base_views.ServiceCheckView.as_view(), name="service_test_root"),
     path('service-test/ssh/', base_views.SSH_ServiceCheckView.as_view(), name="ssh_service_test"),
     path('service-test/http/', base_views.HTTP_ServiceCheckView.as_view(), name="http_service_test"),
+    path('service-test/dns/', base_views.DNS_ServiceCheckView.as_view(), name="dns_service_test"),
 ]

@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 import base.views as base_views
+from pcap_parsing import urls as pcap_urls
 
 urlpatterns = [
     path('', base_views.IndexView.as_view(), name="site_index"),
@@ -25,4 +26,6 @@ urlpatterns = [
     path('service-test/ssh/', base_views.SSH_ServiceCheckView.as_view(), name="ssh_service_test"),
     path('service-test/http/', base_views.HTTP_ServiceCheckView.as_view(), name="http_service_test"),
     path('service-test/dns/', base_views.DNS_ServiceCheckView.as_view(), name="dns_service_test"),
+
+    path('pcap/', include(pcap_urls))
 ]

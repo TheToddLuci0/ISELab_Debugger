@@ -1,0 +1,18 @@
+{% extends 'base/base.html' %}
+{% load pcap_tt %}
+{%  block content %}
+
+        <div>
+        <form action="{% url 'pcap_upload' %}" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% include "base/snippets/form_snippet.html" %}
+            <small class="text-muted">When you submit, the PCAP will be parsed, which may take a while, depending on file size</small>
+        </form>
+    </div>
+    <div>
+    {% for p in packets %}
+    {% pcap_card p %}
+    {% endfor %}
+    </div>
+
+{% endblock %}

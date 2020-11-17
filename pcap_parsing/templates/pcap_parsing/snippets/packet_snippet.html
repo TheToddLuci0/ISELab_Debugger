@@ -1,5 +1,13 @@
-{# Assumes we have a scapy packet passed as `p` #}
-
-<div class="card {{ border }}">
-potato
+<div class="card {{ border }}" style="padding: 2px">
+    <div class="card-header">
+        <div class="row">
+            <h5 class="card-title">Ethernet</h5>
+        </div>
+        <div class="row">
+            <div class="col">Source: {{ ether_src }}</div>
+            <div class="col">Destination: {{ ether_dst }}</div>
+            <div class="col">Type: {{ ether_type }}</div>
+        </div>
+    </div>
+    {{ p }}
 </div>

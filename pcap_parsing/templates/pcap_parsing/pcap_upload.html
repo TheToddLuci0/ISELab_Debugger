@@ -9,10 +9,10 @@
             <small class="text-muted">When you submit, the PCAP will be parsed, which may take a while, depending on file size</small>
         </form>
     </div>
+    {% if packets %}
     <div>
-    {% for p in packets %}
-    {% pcap_card p %}
-    {% endfor %}
+        {% pcap_cards %}
     </div>
+    {% endif %}
 
 {% endblock %}

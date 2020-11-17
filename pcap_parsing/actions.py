@@ -1,5 +1,7 @@
 import tempfile
 import os
+
+from django.template.loader import render_to_string
 from scapy.utils import rdpcap
 
 
@@ -32,3 +34,17 @@ def packlist_to_sanity(packets):
     for p in packets:
         res.append(p.show2(dump=True))
     return res
+
+
+def pcap_render_hack(packets):
+    res = []
+    for p in packets:
+        subcontext = {}
+        if p['TCP']:
+            subcontext['border'] = 'border-success'
+        elif p['UDP']:
+            subcontext['border'] = 'border-primary'
+        elif p['ICMP']:
+            subcontext['border'] = 'border-danger'
+        res.append(render_to_string('pcap_parsing/snippets/packet_snippet.html', subcontext))
+    return '\n'.join(res)

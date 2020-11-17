@@ -22,5 +22,6 @@ class PcapUploadView(BaseTemplateView):
         context['form'] = form
         if form.is_valid():
             plist = actions.pcap_to_scapy(request.FILES['file'])
-            context['packets'] = actions.packlist_to_sanity(plist)
+            # context['packets'] = actions.packlist_to_sanity(plist)
+            context['packets'] = plist
         return self.render_to_response(context)

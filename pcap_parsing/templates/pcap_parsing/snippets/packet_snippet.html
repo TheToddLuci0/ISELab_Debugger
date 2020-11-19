@@ -6,15 +6,17 @@
         </button>
     </div>
     <div id="packet{{ num }}" class="collapse show" data-parent="#accordion">
-        <div class="card-body">
+        {% if ether_src %}
+            <div class="card-body">
                 <h5 class="card-title">Ethernet</h5>
-            <div class="row">
-                <div class="col">Source: {{ ether_src }}</div>
-                <div class="col">Destination: {{ ether_dst }}</div>
-                <div class="col">Type: {{ ether_type }}</div>
+                <div class="row">
+                    <div class="col">Source: {{ ether_src }}</div>
+                    <div class="col">Destination: {{ ether_dst }}</div>
+                    <div class="col">Type: {{ ether_type }}</div>
+                </div>
             </div>
-        </div>
-        <hr/>
+            <hr/>
+        {% endif %}
         {% if ip_version %}
             <div class="card-body">
                 <h5 class="card-title">IP</h5>
@@ -65,6 +67,13 @@
             <div class="card-body">
                 <h5 class="card-title">Payload</h5>
                 <pre>{{ raw_load }}</pre>
+            </div>
+            <hr/>
+        {% endif %}
+        {% if padding %}
+            <div class="card-body">
+                <h5 class="card-title">Padding</h5>
+                <pre>{{ padding }}</pre>
             </div>
             <hr/>
         {% endif %}

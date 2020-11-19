@@ -1,0 +1,22 @@
+{% extends 'base/base.html' %}
+{% block content %}
+
+        <div>
+        <form action="{% url 'ldap_service_test' %}" method="post">
+            {% csrf_token %}
+            {% include "base/snippets/form_snippet.html" %}
+            <small class="text-muted">Submitting will run a test, which may take a few seconds</small>
+        </form>
+    </div>
+
+    {% if okay_message %}
+    <h3 style="color: forestgreen;">Success!</h3>
+    {% elif error_message %}
+        <h3 style="color: orangered;">Failure!</h3>
+        <p>Error:</p>
+        <code>
+        {{ error_message }}
+        </code>
+    {% endif %}
+
+{% endblock %}

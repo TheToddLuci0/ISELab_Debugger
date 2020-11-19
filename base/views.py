@@ -1,4 +1,5 @@
 from django.views.generic.base import View, TemplateResponseMixin
+from django.conf import settings
 from . import actions, forms
 
 
@@ -200,4 +201,25 @@ class DNS_ServiceCheckView(BaseTemplateView):
                 context['response_arr'] = arr
             else:
                 context['err'] = message
+        return self.render_to_response(context)
+
+
+class LDAP_ServiceCheckView(BaseTemplateView):
+    template_name = 'base/services/ldap.html'
+
+    def get(self, request, context, *args, **kwargs):
+        context['form'] = forms.LDAPServiceForm(
+            initial={'username': settings.DEFAULE_USER, 'password': settings.DEFAULT_PASSWORD})
+        return self.render_to_response(context)
+
+    def post(self, request, context, *args, **kwargs):
+        form = forms.LDAPServiceForm(request.POST)
+        context['form'] = form
+        if form.is_valid():
+            success, msg = actions.test_ldap(form.cleaned_data['username'], form.cleaned_data['password'],
+                                             form.cleaned_data['server'])
+            if success:
+                context['okay_message'] = msg
+            else:
+                context['error_message'] = msg
         return self.render_to_response(context)

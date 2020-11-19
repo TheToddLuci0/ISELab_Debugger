@@ -53,3 +53,11 @@ class DNSServiceForm(forms.Form):
                                          widget=forms.TextInput(attrs={'class': 'form-control'}))
     hostname = forms.CharField(label="Lookup Target", widget=forms.TextInput(attrs={'class': 'form-control'}))
     lookup_type = forms.ChoiceField(choices=RECORD_CHOICES)
+
+
+class LDAPServiceForm(forms.Form):
+    server = forms.GenericIPAddressField(unpack_ipv4=True, label="LDAP Server Address",
+                                         widget=forms.TextInput(attrs={'class': 'form-control'}))
+    username = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control'}),
+                               help_text="Must be in ldap format")
+    password = forms.CharField(required=False, widget=forms.PasswordInput(attrs={'class': 'form-control'}))

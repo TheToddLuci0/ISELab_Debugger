@@ -7,6 +7,7 @@ from dns.resolver import Resolver as DNSResolver
 from dns.name import from_text as dns_from_text
 from dns.exception import Timeout as DNS_Timeout
 from dns.rdatatype import RdataType as DNS_RdataType
+import ldap
 
 PING_REGEX = re.compile('\A[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\Z')
 
@@ -99,3 +100,13 @@ def test_dns(dns_server: str, lookup_target: str, lookup_type):
         return False, "No working nameservers at that address."
     except Exception as e:
         return False, "An unknown error has occurred.\n{}".format(e)
+
+
+def test_ldap(username: str, password: str, server: str):
+    try:
+        l = ldap.open(server)
+        l.simple_bin(username, password)
+        return True, "Success"
+    except ldap.LDAPError as e:
+        # TODO: Add better handling for this
+        return False, e.__str__()

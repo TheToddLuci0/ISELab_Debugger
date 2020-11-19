@@ -1,13 +1,72 @@
-<div class="card {{ border }}" style="padding: 2px">
-    <div class="card-header">
-        <div class="row">
-            <h5 class="card-title">Ethernet</h5>
-        </div>
-        <div class="row">
-            <div class="col">Source: {{ ether_src }}</div>
-            <div class="col">Destination: {{ ether_dst }}</div>
-            <div class="col">Type: {{ ether_type }}</div>
-        </div>
+<div class="card {{ border }} " style="padding: 2px">
+    <div class="card-header" id="heading{{ num }}">
+        <h5 class="card-title">{{ p }}</h5>
+        <button class="btn btn-sm" data-toggle="collapse" data-target="#packet{{ num }}" aria-expanded="true"
+                aria-controls="packet{{ num }}">Show/Hide
+        </button>
     </div>
-    {{ p }}
+    <div id="packet{{ num }}" class="collapse show" data-parent="#accordion">
+        <div class="card-body">
+                <h5 class="card-title">Ethernet</h5>
+            <div class="row">
+                <div class="col">Source: {{ ether_src }}</div>
+                <div class="col">Destination: {{ ether_dst }}</div>
+                <div class="col">Type: {{ ether_type }}</div>
+            </div>
+        </div>
+        <hr/>
+        {% if ip_version %}
+            <div class="card-body">
+                <h5 class="card-title">IP</h5>
+                <div class="row">
+                    <div class="col">Version: {{ ip_version }}</div>
+                    <div class="col">Length: {{ ip_len }}</div>
+                    <div class="col">ID: {{ ip_id }}</div>
+                </div>
+                <div class="row">
+                    <div class="col">Flags: {{ ip_flags }}</div>
+                    <div class="col">TTL: {{ ip_ttl }}</div>
+                    <div class="col">Checksum: {{ ip_chksum }}</div>
+                </div>
+            </div>
+            <hr/>
+        {% endif %}
+        {% if tcp_chksum %}
+            <div class="card-body">
+                <h5 class="card-title">TCP</h5>
+                <div class="row">
+                    <div class="col"> Source Port: {{ tcp_sport }}</div>
+                    <div class="col"> ID: {{ tcp_id }}</div>
+                    <div class="col"> Flags: {{ tcp_flags }}</div>
+                </div>
+                <div class="row">
+                    <div class="col"> Destination Port: {{ tcp_dport }}</div>
+                    <div class="col"> SEQ: {{ tcp_seq }}</div>
+                    <div class="col"> ACK: {{ tcp_ack }}</div>
+                </div>
+            </div>
+            <hr/>
+        {% endif %}
+        {% if udp_sport %}
+            <div class="card-body">
+                <h5 class="card-title">UDP</h5>
+                <div class="row">
+                    <div class="col"> Source Port: {{ udp_sport }}</div>
+                    <div class="col"> Length: {{ udp_len }}</div>
+                    <div class="col"> Destination Port: {{ udp_dport }}</div>
+                </div>
+                <div class="row">
+                    <div class="col"> Checksum: {{ udp_chksum }}</div>
+                </div>
+            </div>
+            <hr/>
+        {% endif %}
+        {% if raw_load %}
+            <div class="card-body">
+                <h5 class="card-title">Payload</h5>
+                <pre>{{ raw_load }}</pre>
+            </div>
+            <hr/>
+        {% endif %}
+    </div>
 </div>

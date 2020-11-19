@@ -28,3 +28,13 @@ __all pulls__ in the environment against that, which may result in rate limiting
 For more information, see 
 ["What are the rate limits for pulling Docker images from the Docker Hub Registry?"](https://www.docker.com/pricing/resource-consumption-updates)
 in the Docker documentation. 
+
+
+# Platform Specific Service Checks
+
+### LDAP
+`python-ldap` does not support Windows at this time (or likely ever), so LDAP checks are on a
+separate branch to maintain cross-platform support. You can checkout the branch 
+[ldap_support](https://github.com/TheToddLuci0/ISELab_Debugger/tree/ldap_support) if you want
+this. Note that it is ___LINUX ONLY___. There also exists a 
+[docker image](https://hub.docker.com/repository/docker/thetoddluci0/iselab_debugger/tags?page=1).

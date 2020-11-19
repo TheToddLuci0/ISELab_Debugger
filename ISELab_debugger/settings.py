@@ -123,6 +123,11 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = 'static/'
 
+# Default credentials for services.
+# Override this in settings_local if you use something else, like course number, as default credentials.
+DEFAULT_USERNAME = 'cdc'
+DEFAULT_PASSWORD = 'cdc'
+
 try:
     from .settings_local import *
 except ImportError:

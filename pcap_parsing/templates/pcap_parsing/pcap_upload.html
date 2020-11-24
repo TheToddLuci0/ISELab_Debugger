@@ -10,6 +10,24 @@
                 file size. {% if packets %}Uploading again will replace the current packets.{% endif %}</small>
         </form>
     </div>
+    {% if warnings and packets %}
+        <div>
+            <ul>
+                {% for w in warnings %}
+                    <li>{{ w }}</li>
+                {% endfor %}
+            </ul>
+            <small class="text-muted">Did we miss something? Open an issue on <a
+                    href="https://github.com/TheToddLuci0/iselab_debugger">GitHub</a>.</small>
+        </div>
+    {% elif packets %}
+        <div>
+            <p>No warnings found.</p>
+            <small class="text-muted">Did we miss something? Open an issue on <a
+                    href="https://github.com/TheToddLuci0/iselab_debugger">GitHub</a>.</small>
+
+        </div>
+    {% endif %}
     {% if packets %}
         <div id="accordion">
             {% pcap_cards %}

@@ -19,12 +19,6 @@ class PcapCardNode(template.Node):
         packet_count = 0
         for p in context['packets']:
             layers = p.layers()
-            # if Ether not in layers:
-            #     # Not writing in support for non-ethernet at the moment
-            #     res.append(render_to_string('pcap_parsing/snippets/packet_snippet.html',
-            #                                 {"error": "Non-Ethernet frames not currently supported",
-            #                                  'border': 'border-danger'}))
-            #     continue
             subcontext = {'p': p.summary, 'num': packet_count}
             if TCP in layers:
                 subcontext['border'] = 'border-success'

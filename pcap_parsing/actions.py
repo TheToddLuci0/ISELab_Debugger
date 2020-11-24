@@ -1,8 +1,11 @@
 import tempfile
 import os
+import types
 
 from django.template.loader import render_to_string
 from scapy.utils import rdpcap
+
+import pcap_parsing.tests as packet_tests
 
 
 def pcap_to_scapy(file):
@@ -36,15 +39,16 @@ def packlist_to_sanity(packets):
     return res
 
 
-def pcap_render_hack(packets):
-    res = []
-    for p in packets:
-        subcontext = {}
-        if p['TCP']:
-            subcontext['border'] = 'border-success'
-        elif p['UDP']:
-            subcontext['border'] = 'border-primary'
-        elif p['ICMP']:
-            subcontext['border'] = 'border-danger'
-        res.append(render_to_string('pcap_parsing/snippets/packet_snippet.html', subcontext))
-    return '\n'.join(res)
+def test_pcap(packets):
+    warnings = []
+    for i in [getattr(packet_tests, a) for a in dir(packet_tests) if
+              isinstance(getattr(packet_tests, a), types.FunctionType)]:
+        try:
+            print(i)
+            warnings.append(i(packets))
+        except Exception as e:
+            pass
+            # print(e)
+    # Make sure that if a test returned nothing, we don't render that
+    warnings.remove(None)
+    return warnings

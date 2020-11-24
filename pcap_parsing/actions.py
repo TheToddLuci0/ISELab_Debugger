@@ -44,11 +44,9 @@ def test_pcap(packets):
     for i in [getattr(packet_tests, a) for a in dir(packet_tests) if
               isinstance(getattr(packet_tests, a), types.FunctionType)]:
         try:
-            print(i)
             warnings.append(i(packets))
         except Exception as e:
             pass
-            # print(e)
     # Make sure that if a test returned nothing, we don't render that
     warnings.remove(None)
     return warnings

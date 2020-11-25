@@ -13,6 +13,7 @@ Welcome to ISELab Debugger's documentation!
    useage/install
    useage/service_checks
    useage/net-test
+   packets/index.rst
 
 
 

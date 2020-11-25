@@ -28,7 +28,7 @@
         <code>
             {{ error }}
         </code>
-    {% else %}
+    {% elif status_code %}
         <h3 style="color: orangered;">That seems wrong!</h3>
         {# If we're here, we have a status code in the status_code variable, and should try to dispense advice based on that. #}
 

@@ -48,5 +48,4 @@ def test_pcap(packets):
         except Exception as e:
             pass
     # Make sure that if a test returned nothing, we don't render that
-    warnings.remove(None)
-    return warnings
+    return list(filter((None).__ne__, warnings))

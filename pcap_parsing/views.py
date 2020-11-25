@@ -22,6 +22,6 @@ class PcapUploadView(BaseTemplateView):
         context['form'] = form
         if form.is_valid():
             plist = actions.pcap_to_scapy(request.FILES['file'])
-            context['packets'] = plist
             context['warnings'] = actions.test_pcap(plist)
+            context['packets'] = plist.__len__()
         return self.render_to_response(context)

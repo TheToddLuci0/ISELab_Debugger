@@ -10,4 +10,4 @@ compute efficient.
 
 """
 
-from .tests import ping_flood
+from .tests import ping_flood, http_malicious_auth

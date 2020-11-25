@@ -1,0 +1,8 @@
+{% extends 'base/base.html' %}
+
+{% block content %}
+<h2>What would you like to do?</h2>
+    <a class="btn btn-primary" href="{% url 'pcap_upload' %}">Work with an existing PCAP</a>
+    {# TODO: Add the ability to capture packets from with the app #}
+
+{%  endblock %}

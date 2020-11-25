@@ -28,6 +28,7 @@
     <option name="TEMPLATE_FOLDERS">
       <list>
         <option value="$MODULE_DIR$/base/templates" />
+        <option value="$MODULE_DIR$/pcap_parsing/templates" />
       </list>
     </option>
   </component>
